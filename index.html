@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EZ Charts</title>
+
+    <meta name="description" content="EZ Charts is a dedicated desktop display for live crypto, stock and ETF charts, controlled by the EZ Charts desktop app.">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background" aria-hidden="true">
+        <div class="grid"></div>
+        <div class="glow glow-one"></div>
+        <div class="glow glow-two"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header>
+        <div class="logo">
+            <span>EZ</span>
+            <small>CHARTS</small>
+        </div>
+
+        <nav>
+            <a href="#device">Device</a>
+            <a href="#how">How it works</a>
+            <a href="#markets">Markets</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <button class="nav-button" disabled>Coming Soon</button>
+    </header>
+
+    <div class="ticker-tape" aria-hidden="true">
+        <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+
+    <main id="main">
+        <section id="device" class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">EZ&nbsp;CHARTS — LIVE MARKET DISPLAY</p>
+
+                <h1>
+                    Off your computer.
+                    <span>On your desk.</span>
+                </h1>
+
+                <p class="hero-text">
+                    EZ Charts is a dedicated market display that keeps your favourite
+                    crypto, stocks and indexes visible on your desk. Configure everything
+                    from the EZ Charts desktop app, then keep your markets in sight.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="primary">See the device</button>
+                    <button class="secondary">How it works</button>
+                </div>
+
+                <ul class="hero-specs">
+                    <li><b>4″</b> dedicated market display</li>
+                    <li><b>5</b> saved views, one button</li>
+                    <li>Configured through the <b>EZ Charts desktop app</b></li>
+                </ul>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="device" id="deviceUnit">
+                    <div class="device-led" id="deviceLed"></div>
+
+                    <div class="device-screen">
+                        <div class="boot-log" id="bootLog" aria-hidden="true"></div>
+
+                        <div class="screen-content" id="screenContent">
+                            <div class="screen-header">
+                                <span class="screen-symbol">BTC-USD</span>
+                                <span class="screen-price">$112,450 <i>+3.24%</i></span>
+                            </div>
+
+                            <svg class="screen-chart" viewBox="0 0 300 120" preserveAspectRatio="none">
+                                <polyline id="screenPolyline" points="0,96 30,84 60,90 90,54 120,66 150,36 180,48 210,24 240,42 270,12 300,18"/>
+                            </svg>
+
+                            <div class="screen-dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="device-button" title="Cycle displays"></div>
+                </div>
+
+                <div class="device-plinth"></div>
+            </div>
+        </section>
+
+        <section id="how" class="section how">
+            <p class="eyebrow">SETUP</p>
+            <h2>From desk to markets in four steps</h2>
+            <p class="section-text">
+                No account walls, no config screens. EZ Charts is designed to get your market display running quickly,
+                without complicated setup or unnecessary menus.
+            </p>
+
+            <div class="steps">
+                <div class="step">
+                <span class="step-index">01</span>
+                <h3>Unbox &amp; power on</h3>
+                <p>Set it on your desk and plug it in. The screen wakes straight into setup.</p>
+                </div>
+
+                <div class="step">
+                    <span class="step-index">02</span>
+                    <h3>Connect it to wifi</h3>
+                    <p>
+                        The device connects to your WiFi during setup. If it can't find a network,
+                        it creates its own setup connection so you can quickly pair it from your phone.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span class="step-index">03</span>
+                    <h3>Configure your displays</h3>
+                    <p>
+                        Open the EZ Charts desktop app, choose the assets you follow, and create
+                        your saved market views for the device.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span class="step-index">04</span>
+                    <h3>Press the button</h3>
+                    <p>
+                        Press the button on the device to cycle through your saved market views
+                        without opening another app or browser tab.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section features">
+            <p class="eyebrow">WHY A SEPARATE SCREEN</p>
+            <h2>Built to stay out of the way</h2>
+            <p class="section-text">
+                EZ Charts does one job well: keep the markets you care about
+                in view, without living in a browser tab you have to go find.
+            </p>
+
+            <div class="cards">
+                <div class="card">
+                <span class="card-mark">01</span>
+                    <h3>Five views, one button</h3>
+                    <p>
+                        Create up to five saved market views in the EZ Charts desktop app and switch
+                        between them directly from the device.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="card-mark">02</span>
+                    <h3>Ready when you are</h3>
+                    <p>
+                        The device automatically reconnects to your setup and loads your saved
+                        market display without needing a keyboard, mouse, or extra apps.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <span class="card-mark">03</span>
+                    <h3>Configured from your desktop</h3>
+                    <p>
+                        Choose your assets, manage your displays, and update your device from
+                        the EZ Charts desktop app. The hardware stays simple and focused.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="markets" class="section markets">
+            <p class="eyebrow">COVERAGE</p>
+            <h2>One display. Every market you follow.</h2>
+            <p class="section-text">
+                Track the markets that matter to you. Crypto, stocks, indexes and
+                commodities can all be displayed through the same simple setup.
+            </p>
+
+            <div class="market-grid">
+                <div>
+                    <h3>Crypto</h3>
+                    <p>BTC · ETH · SOL</p>
+                </div>
+
+                <div>
+                    <h3>Stocks</h3>
+                    <p>NVDA · AAPL · TSLA</p>
+                </div>
+
+                <div>
+                    <h3>Indexes</h3>
+                    <p>S&amp;P 500 · NASDAQ</p>
+                </div>
+
+                <div>
+                    <h3>ETFs &amp; Commodities</h3>
+                    <p>QQQ · Gold · Oil</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section about">
+            <p class="eyebrow">EZ&nbsp;CHARTS</p>
+            <h2>Instruments, not another app.</h2>
+            <p class="section-text">
+                EZ Charts builds small, focused hardware for people who'd rather
+                glance at a screen than open one. EZ Charts combines dedicated hardware
+                with simple desktop software to create a better way to stay connected
+                to the markets.
+            </p>
+
+            <button class="primary" disabled>Coming Soon</button>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <strong>EZ&nbsp;CHARTS</strong>
+            <br>
+            Built by Xylint Tech
+        </div>
+
+        <p>© 2026 EZ Charts</p>
+    </footer>
+
+    <script src="js/animations.js"></script>
+</body>
+</html>
