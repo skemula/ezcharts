@@ -382,23 +382,6 @@ DEVICE MOCKUP
     50% { transform: translateY(-16px); }
 }
 
-.device-led {
-    position: absolute;
-    top: 18px;
-    left: 22px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 10px var(--green);
-    animation: blink 2.6s infinite ease-in-out;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: .35; }
-}
-
 .device-screen {
     position: relative;
     aspect-ratio: 5 / 4;
