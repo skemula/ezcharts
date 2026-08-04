@@ -2,7 +2,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 
 /* ---------- scroll reveals ---------- */
 const revealTargets = document.querySelectorAll(
-    ".section, .card, .step, .pill, .timeline-item, .faq-item, .founder-point"
+    ".section, .card, .step, .pill, .faq-item"
 );
 
 if (reduceMotion) {
@@ -32,37 +32,6 @@ if (reduceMotion) {
     });
 }
 
-/* ---------- ticker tape ---------- */
-const tickerData = [
-    { symbol: "BTC", price: "112,450", change: "+3.24%", dir: "up" },
-    { symbol: "ETH", price: "4,182", change: "+1.87%", dir: "up" },
-    { symbol: "SOL", price: "231.40", change: "-0.92%", dir: "down" },
-    { symbol: "NVDA", price: "189.72", change: "+2.11%", dir: "up" },
-    { symbol: "AAPL", price: "241.05", change: "+0.44%", dir: "up" },
-    { symbol: "TSLA", price: "312.88", change: "-1.35%", dir: "down" },
-    { symbol: "S&P 500", price: "6,318", change: "+0.62%", dir: "up" },
-    { symbol: "NASDAQ", price: "21,904", change: "+0.81%", dir: "up" },
-    { symbol: "GOLD", price: "2,614", change: "-0.18%", dir: "down" },
-    { symbol: "OIL", price: "78.32", change: "+0.55%", dir: "up" },
-];
-
-const track = document.getElementById("tickerTrack");
-
-if (track) {
-    const renderItems = () =>
-        tickerData
-            .map(
-                (item) =>
-                    `<span class="ticker-item ${item.dir}">${item.symbol} <b>${item.price}</b> ${item.change}</span>`
-            )
-            .join("");
-
-    track.innerHTML = renderItems() + renderItems();
-
-    if (reduceMotion) {
-        track.style.animation = "none";
-    }
-}
 
 /* ---------- device boot sequence ---------- */
 const bootLog = document.getElementById("bootLog");
@@ -93,13 +62,17 @@ function runBootSequence() {
         bootLog.appendChild(el);
     });
 
-    const totalDelay = bootLines.length * 0.45 + 0.6;
+    const totalDelay = 2.2;
 
     return new Promise((resolve) => {
         setTimeout(() => {
             bootLog.classList.add("is-done");
-            screenContent.classList.add("is-on");
-            resolve();
+
+            setTimeout(() => {
+                screenContent.classList.add("is-on");
+                resolve();
+            }, 400);
+
         }, totalDelay * 1000);
     });
 }
