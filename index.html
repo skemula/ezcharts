@@ -22,59 +22,88 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header>
-        <div class="logo">
+        <a href="#" class="logo">
             <span>EZ</span>
             <small>CHARTS</small>
-        </div>
+        </a>
 
         <nav>
-            <a href="#device">Device</a>
-            <a href="#how">How it works</a>
-            <a href="#markets">Markets</a>
-            <a href="#about">About</a>
+            <a href="#features">Features</a>
             <a href="#faq">FAQ</a>
         </nav>
 
-        <button class="nav-button">Join Waitlist</button>
+        <a href="#buy" class="nav-button">Buy now</a>
     </header>
 
     <main id="main">
-        <section id="device" class="hero">
+        <section class="hero">
             <div class="hero-content">
-                <p class="eyebrow">EZ&nbsp;CHARTS — MARKET DISPLAY</p>
+                <p class="eyebrow">EZ CHARTS — MARKET DISPLAY</p>
 
                 <h1>
-                    Your markets.
-                    <span>Always visible.</span>
+                    The market.
+                    <span>Always on.</span>
                 </h1>
 
                 <p class="hero-text">
-                    A dedicated market display for your desk. Track crypto, stocks, ETFs, and more without opening another tab.
-                    Control everything from the EZ Charts desktop app.
+                    A dedicated market display for your desk.
+                    Track crypto, stocks, ETFs and indexes without
+                    another browser tab.
                 </p>
 
-                <ul class="hero-specs">
-                    <li><b>4″</b> market display</li>
-                    <li><b>5</b> saved displays, one button</li>
-                    <li>Configured through the <b>EZ Charts desktop app</b></li>
-                </ul>
+                <div class="hero-actions">
+                    <a href="#buy" class="primary">
+                        Buy EZ Charts
+                        <span>→</span>
+                    </a>
 
+                    <a href="#features" class="secondary">
+                        Explore
+                        <span>↓</span>
+                    </a>
+                </div>
+
+                <div class="hero-meta">
+                    <span>4″ DISPLAY</span>
+                    <i></i>
+                    <span>5 SAVED MARKETS</span>
+                    <i></i>
+                    <span>WI-FI</span>
+                </div>
             </div>
 
             <div class="hero-visual">
                 <div class="device" id="deviceUnit">
-
                     <div class="device-screen">
-                        <div class="boot-log" id="bootLog" aria-hidden="true"></div>
-
-                        <div class="screen-content" id="screenContent">
+                        <div class="screen-content is-on" id="screenContent">
                             <div class="screen-header">
-                                <span class="screen-symbol" id="screenSymbol">BTC-USD</span>
-                                <span class="screen-price" id="screenPrice">$112,450 <i id="screenChange">+3.24%</i></span>
+                                <span
+                                    class="screen-symbol"
+                                    id="screenSymbol"
+                                >
+                                    BTC-USD
+                                </span>
+
+                                <span
+                                    class="screen-price"
+                                    id="screenPrice"
+                                >
+                                    $112,450
+                                    <i id="screenChange">
+                                        +3.24%
+                                    </i>
+                                </span> 
                             </div>
 
-                            <svg class="screen-chart" viewBox="0 0 300 120" preserveAspectRatio="none">
-                                <polyline id="screenPolyline" points="0,96 30,84 60,90 90,54 120,66 150,36 180,48 210,24 240,42 270,12 300,18"/>
+                            <svg
+                                class="screen-chart"
+                                viewBox="0 0 300 120"
+                                preserveAspectRatio="none"
+                            >
+                                <polyline
+                                    id="screenPolyline"
+                                    points="0,96 30,84 60,90 90,54 120,66 150,36 180,48 210,24 240,42 270,12 300,18"
+                                />
                             </svg>
 
                             <div class="screen-dots" id="screenDots">
@@ -88,161 +117,285 @@
 
                         <div class="screen-flicker" aria-hidden="true"></div>
                     </div>
-
-                    <div class="device-button" title="Cycle displays"></div>
                 </div>
 
                 <div class="device-plinth"></div>
             </div>
         </section>
 
-        <section id="how" class="section how">
-            <p class="eyebrow">SETUP</p>
-            <h2>From desk to markets in four steps</h2>
-            <p class="section-text">
-                No account walls, no config screens. EZ Charts is designed to get your market display running quickly,
-                without complicated setup or unnecessary menus.
-            </p>
+        <section class="product-strip">
+            <div class="product-stat">
+                <strong>4″</strong>
+                <span>Dedicated market display</span>
+            </div>
 
-            <div class="steps">
-                <div class="step">
-                <span class="step-index">01</span>
-                <h3>Power on</h3>
-                <p>Plug it in and start setup.</p>
-                </div>
+            <div class="product-stat">
+                <strong>05</strong>
+                <span>Saved displays</span>
+            </div>
 
-                <div class="step">
-                    <span class="step-index">02</span>
-                    <h3>Connect</h3>
-                    <p>Join WiFi in seconds.</p>
-                </div>
+            <div class="product-stat">
+                <strong>Wi-Fi</strong>
+                <span>Live market data</span>
+            </div>
 
-                <div class="step">
-                    <span class="step-index">03</span>
-                    <h3>Choose markets</h3>
-                    <p>Pick your assets in the desktop app.</p>
-                </div>
-
-                <div class="step">
-                    <span class="step-index">04</span>
-                    <h3>Display</h3>
-                    <p>Your markets stay visible.</p>
-                </div>
+            <div class="product-stat">
+                <strong>Swipe</strong>
+                <span>Switch between markets</span>
             </div>
         </section>
 
-        <section class="section features">
-            <p class="eyebrow">Why EZ Charts?</p>
-            <h2>Built to stay out of the way</h2>
-            <p class="section-text">
-                EZ Charts does one job well: keep the markets you care about
-                in view, without living in a browser tab you have to go find.
-            </p>
+        <section id="features" class="section features">
+            <div class="section-heading">
+                <p class="eyebrow">THE DEVICE</p>
 
-            <div class="cards">
-                <div class="card">
-                <span class="card-mark">01</span>
-                    <h3>Five displays, one button</h3>
-                    <p>
-                        Create up to five saved market displays in the EZ Charts desktop app and switch
-                        between them directly from the device.
-                    </p>
-                </div>
+                <h2>
+                    Built for your desk.
+                    <span>Not your browser.</span>
+                </h2>
 
-                <div class="card">
-                    <span class="card-mark">02</span>
-                    <h3>Always ready</h3>
-                    <p>
-                        Loads your saved market displays automatically
-                        without needing a keyboard or mouse.
-                    </p>
-                </div>
+                <p class="section-text">
+                    EZ Charts keeps the markets you care about
+                    visible all day, without another tab,
+                    window or monitor.
+                </p>
+            </div>
 
-                <div class="card">
-                    <span class="card-mark">03</span>
-                    <h3>Configured from your desktop</h3>
+            <div class="feature-grid">
+                <article class="feature feature-large">
+                    <div class="feature-number">01</div>
+
+                    <div>
+                        <h3>Your markets. Your way.</h3>
+
+                        <p>
+                            Choose the assets you actually follow.
+                            Crypto, stocks, ETFs, indexes and more.
+                            Save up to five displays and switch
+                            between them from the device.
+                        </p>
+                    </div>
+
+                    <div class="market-tags">
+                        <span>BTC</span>
+                        <span>ETH</span>
+                        <span>NVDA</span>
+                        <span>AAPL</span>
+                        <span>TSLA</span>
+                        <span>SPX</span>
+                        <span>GOLD</span>
+                    </div>
+                </article>
+
+                <article class="feature">
+                    <div class="feature-number">02</div>
+
+                    <h3>Always there.</h3>
+
                     <p>
-                        Choose your assets, manage your displays, and update your device from
-                        the EZ Charts desktop app. The hardware stays simple and focused.
+                        Plug it in, put it on your desk and
+                        let it do its job. EZ Charts is designed
+                        to stay visible without getting in your way.
                     </p>
-                </div>
+                </article>
+
+                <article class="feature">
+                    <div class="feature-number">03</div>
+
+                    <h3>Controlled from your desktop.</h3>
+
+                    <p>
+                        Configure your markets, charts and
+                        displays from the EZ Charts desktop app.
+                        The device stays simple.
+                    </p>
+
+                </article>
             </div>
         </section>
 
-        <section id="markets" class="section markets">
-            <p class="eyebrow">COVERAGE</p>
-            <h2>Your markets, all in one place.</h2>
-            <p class="section-text">
-                Track the markets that matter to you. Crypto, stocks, indexes and
-                commodities can all be displayed through the same simple setup.
-            </p>
+        <section id="buy" class="buy-section">
+            <div class="buy-glow"></div>
 
-            <div class="market-pills">
-                <span class="pill"><b>Crypto</b>BTC · ETH · SOL</span>
-                <span class="pill"><b>Stocks</b>NVDA · AAPL · TSLA</span>
-                <span class="pill"><b>Indexes</b>S&amp;P 500 · NASDAQ</span>
-                <span class="pill"><b>ETFs</b>QQQ · VOO · ARKK</span>
-                <span class="pill"><b>Commodities</b>Gold · Oil · Silver</span>
+            <div class="buy-inner">
+                <div class="buy-copy">
+                    <p class="eyebrow">EZ CHARTS</p>
+
+                    <h2>
+                        Put the market
+                        <span>on your desk.</span>
+                    </h2>
+
+                    <p>
+                        One dedicated display. Five saved markets.
+                        No browser tabs required.
+                    </p>
+
+                    <div class="buy-price">
+                        <span class="price-label">
+                            EZ Charts
+                        </span>
+
+                        <strong>$129</strong>
+
+                        <span class="price-currency">
+                            USD
+                        </span>
+                    </div>
+
+                    <p class="price-note">
+                        Includes EZ Charts display and desktop software.
+                    </p>
+
+                    <a href="#" class="buy-button" id="buyButton">
+                        Buy EZ Charts
+                        <span>→</span>
+                    </a>
+
+                    <div class="buy-details">
+                        <span>Secure checkout</span>
+                        <span>•</span>
+                        <span>Ships worldwide</span>
+                    </div>
+                </div>
+
+                <div class="buy-product">
+                    <div class="buy-device-shadow"></div>
+
+                    <div class="device buy-device">
+                        <div class="device-screen">
+                            <div class="screen-content is-on">
+                                <div class="screen-header">
+                                    <span class="screen-symbol">
+                                        NVDA
+                                    </span>
+
+                                    <span class="screen-price">
+                                        $189.72
+                                        <i>
+                                            +2.18%
+                                        </i>
+                                    </span>
+                                </div>
+
+                                <svg
+                                    class="screen-chart"
+                                    viewBox="0 0 300 120"
+                                    preserveAspectRatio="none"
+                                >
+                                    <polyline
+                                        points="0,88 30,78 60,82 90,56 120,63 150,44 180,50 210,28 240,35 270,18 300,25"
+                                    />
+                                </svg>
+
+                                <div class="screen-dots">
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot active"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <section id="about" class="section about">
-            <p class="eyebrow">EZ&nbsp;CHARTS</p>
-            <h2>Built by Xylint Tech</h2>
-            <p class="section-text">
-                EZ Charts started as a simple idea: keep the markets you follow visible without another browser tab.
-            </p>
-
-            <button class="primary">Join the Waitlist</button>
         </section>
 
         <section id="faq" class="section faq">
-            <p class="eyebrow">FAQ</p>
-            <h2>Good to know</h2>
+            <div class="section-heading">
+                <p class="eyebrow">FAQ</p>
+
+                <h2>Good to know.</h2>
+            </div>
 
             <div class="faq-list">
                 <details class="faq-item">
-                    <summary>Does the device work without the desktop app?</summary>
-                    <p>The desktop app is how you choose which assets show up and build your five saved displays. Once configured, the device runs on its own — you only need the app again to make changes.</p>
+                    <summary>
+                        Does my computer need to stay on?
+                    </summary>
+
+                    <p>
+                        No. The desktop app is used to configure
+                        your device. Once configured, EZ Charts
+                        runs independently.
+                    </p>
                 </details>
 
                 <details class="faq-item">
-                    <summary>What happens if my Wi-Fi drops?</summary>
-                    <p>The device reconnects automatically once your network is back and keeps showing your last saved display in the meantime.</p>
+                    <summary>
+                        What can I display?
+                    </summary>
+
+                    <p>
+                        You can display supported crypto assets,
+                        stocks, ETFs, indexes and commodities.
+                    </p>
                 </details>
 
                 <details class="faq-item">
-                    <summary>Does it need my computer running?</summary>
-                    <p>No. Once configured, EZ Charts runs independently and reconnects automatically.</p>
+                    <summary>
+                        How many markets can I save?
+                    </summary>
+
+                    <p>
+                        EZ Charts supports up to five saved
+                        displays that you can swipe between
+                        directly on the device.
+                    </p>
                 </details>
 
                 <details class="faq-item">
-                    <summary>When can I buy one?</summary>
-                    <p>EZ Charts isn't for sale yet. Hardware is currently in prototyping.</p>
+                    <summary>
+                        What happens if Wi-Fi disconnects?
+                    </summary>
+
+                    <p>
+                        The device automatically reconnects when
+                        your network becomes available again.
+                    </p>
                 </details>
             </div>
         </section>
     </main>
 
     <footer>
-        <div>
-            <strong>EZ&nbsp;CHARTS</strong>
-            <br>
-            A product by Xylint Tech
+        <div class="footer-brand">
+            <strong>EZ CHARTS</strong>
+            <span>
+                A product by Xylint Tech
+            </span>
         </div>
 
-        <div class="footer-social">
-            <a class="social-button" href="https://discord.gg/NJFYcfMTPs" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.32 5.36a17.5 17.5 0 0 0-4.33-1.34l-.22.4a15.9 15.9 0 0 1 3.83 1.9 16.5 16.5 0 0 0-14.99 0 15.9 15.9 0 0 1 3.9-1.9l-.22-.4a17.5 17.5 0 0 0-4.35 1.34C1.6 9.2.9 12.9 1.14 16.55a17.6 17.6 0 0 0 5.32 2.68l.68-1.1a11.4 11.4 0 0 1-1.8-.87c.15-.11.3-.23.44-.35a12.6 12.6 0 0 0 10.42 0c.15.12.29.24.44.35-.57.34-1.18.63-1.8.87l.68 1.1a17.5 17.5 0 0 0 5.32-2.68c.3-4.2-.62-7.87-2.52-11.19ZM8.68 14.2c-.86 0-1.56-.79-1.56-1.76s.68-1.76 1.56-1.76 1.58.8 1.56 1.76c0 .97-.69 1.76-1.56 1.76Zm6.64 0c-.86 0-1.56-.79-1.56-1.76s.68-1.76 1.56-1.76 1.58.8 1.56 1.76c0 .97-.68 1.76-1.56 1.76Z"/></svg>
-                <span>Join Discord</span>
+        <div class="footer-links">
+            <a
+                href="https://discord.gg/NJFYcfMTPs"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Discord
             </a>
-            <a class="social-button" href="https://x.com/EzChartsApp" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 3h3.03l-6.62 7.56L22.5 21h-6.1l-4.78-6.25L6.1 21H3.06l7.08-8.09L1.5 3h6.25l4.32 5.71L18.24 3Zm-1.06 16.17h1.68L7.9 4.74H6.1l11.08 14.43Z"/></svg>
-                <span>Follow on X</span>
+
+            <a
+                href="https://x.com/EzChartsApp"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                X
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+            <a href="#buy">
+                Buy
             </a>
         </div>
 
-        <p>© 2026 Xylint Tech</p>
+        <span class="copyright">
+            © 2026 Xylint Tech
+        </span>
     </footer>
 
     <script src="js/animations.js"></script>
