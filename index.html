@@ -1,454 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EZ Charts</title>
-    <meta name="description" content="EZ Charts is your personal market display for live crypto, stocks, and ETF charts — controlled effortlessly from the EZ Charts desktop app.">
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xylnt Technologies — Instruments for your desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0A0D10;
+    --panel:#10151A;
+    --panel-2:#161D24;
+    --line:#232B33;
+    --line-bright:#374250;
+    --text:#E9EEF2;
+    --text-dim:#8B98A3;
+    --text-faint:#556170;
+    --amber:#FFB454;
+    --amber-soft:rgba(255,180,84,0.14);
+    --up:#4FE3C9;
+    --down:#FF7A66;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  ::selection{background:var(--amber); color:#12100A;}
+  :focus-visible{outline:2px solid var(--amber); outline-offset:3px;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  @media (max-width:700px){.wrap{padding:0 20px;}}
+
+  /* subtle circuit-grid backdrop */
+  .grid-bg{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,16,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk'; font-weight:700; font-size:18px;
+    letter-spacing:-0.01em;
+    text-decoration:none;
+  }
+  .logo-mark{
+    width:26px; height:26px; position:relative; flex-shrink:0;
+  }
+  .logo-mark svg{width:100%; height:100%; display:block;}
+  .nav-links{display:flex; gap:34px; align-items:center;}
+  .nav-links a{
+    color:var(--text-dim); text-decoration:none; font-size:14.5px;
+    transition:color .15s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 18px;
+    border-radius:var(--radius);
+    font-size:14.5px; font-weight:500;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+    font-family:'IBM Plex Sans';
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-amber{background:var(--amber); color:#171106;}
+  .btn-amber:hover{transform:translateY(-1px); background:#ffc274;}
+  .btn-ghost{border-color:var(--line-bright); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--amber); }
+  .nav-cta{display:flex; align-items:center; gap:14px;}
+  .menu-btn{display:none; background:none; border:none; color:var(--text); cursor:pointer;}
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .menu-btn{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative; overflow:hidden; padding:96px 0 60px;}
+  .hero-inner{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:center;
+  }
+  @media (max-width:960px){ .hero-inner{grid-template-columns:1fr;} }
+
+  .status-chip{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 12px; border:1px solid var(--line-bright); border-radius:20px;
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-dim);
+    margin-bottom:26px;
+  }
+  .dot-live{width:6px; height:6px; border-radius:50%; background:var(--up); box-shadow:0 0 8px var(--up); animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+  .hero h1{
+    font-size:clamp(38px, 5.2vw, 62px);
+    line-height:1.04;
+    max-width:12ch;
+  }
+  .hero p.lead{
+    color:var(--text-dim); font-size:17.5px; max-width:44ch; margin-top:22px;
+  }
+  .hero-ctas{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .hero-note{margin-top:18px; font-size:13px; color:var(--text-faint); font-family:'IBM Plex Mono';}
+
+  /* device mock */
+  .device{
+    background:linear-gradient(180deg,#181F26,#0D1116);
+    border:1px solid var(--line-bright);
+    border-radius:10px;
+    padding:14px;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  }
+  .device-top{display:flex; justify-content:space-between; align-items:center; padding:2px 6px 12px; font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-faint);}
+  .device-screen{
+    position:relative;
+    background:radial-gradient(120% 140% at 20% 0%, #101820, #070A0D 70%);
+    border:1px solid var(--line);
+    border-radius:4px;
+    height:300px;
+    padding:18px;
+    overflow:hidden;
+  }
+  .screen-header{display:flex; justify-content:space-between; align-items:flex-start;}
+  .ticker-sym{font-family:'IBM Plex Mono'; font-size:13px; color:var(--text-dim); letter-spacing:.03em;}
+  .ticker-price{font-family:'IBM Plex Mono'; font-size:26px; font-weight:500;}
+  .ticker-delta{font-family:'IBM Plex Mono'; font-size:12.5px; margin-top:2px;}
+  .up{color:var(--up);} .down{color:var(--down);}
+  #candles{
+    position:absolute; left:18px; right:18px; bottom:44px; top:96px;
+    display:flex; align-items:flex-end; gap:5px;
+  }
+  .candle{flex:1; min-width:3px; border-radius:1px; transition:height .5s ease;}
+  .candle.up{background:var(--up); box-shadow:0 0 6px rgba(79,227,201,0.4);}
+  .candle.down{background:var(--down); box-shadow:0 0 6px rgba(255,122,102,0.35);}
+  .device-dots{display:flex; gap:8px; position:absolute; bottom:16px; left:18px;}
+  .device-dots span{width:6px; height:6px; border-radius:50%; background:var(--line-bright);}
+  .device-dots span.active{background:var(--amber); box-shadow:0 0 6px var(--amber);}
+  .device-bottom{display:flex; justify-content:space-between; padding-top:12px; font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-faint); letter-spacing:.04em;}
+
+  /* ---------- TICKER MARQUEE ---------- */
+  .marquee-strip{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--panel);
+    overflow:hidden; white-space:nowrap;
+  }
+  .marquee-track{display:inline-flex; animation:scroll 34s linear infinite; padding:14px 0;}
+  @keyframes scroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .m-item{display:inline-flex; align-items:center; gap:10px; padding:0 28px; font-family:'IBM Plex Mono'; font-size:13px; border-right:1px solid var(--line);}
+  .m-sym{color:var(--text-dim);}
+  .m-price{color:var(--text);}
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{padding:104px 0;}
+  @media (max-width:700px){section{padding:72px 0;}}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .kicker{font-family:'IBM Plex Mono'; font-size:13px; color:var(--amber); margin-bottom:14px; display:block;}
+  .section-head h2{font-size:clamp(28px,3.4vw,40px); line-height:1.12;}
+  .section-head p{color:var(--text-dim); margin-top:16px; font-size:16px; max-width:52ch;}
+
+  .principles{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:800px){.principles{grid-template-columns:1fr;}}
+  .principle{background:var(--void); padding:32px;}
+  .principle h3{font-size:18px; margin-bottom:10px;}
+  .principle p{color:var(--text-dim); font-size:14.5px; margin:0;}
+
+  /* ---------- PRODUCT: EZ CHARTS ---------- */
+  .product-block{
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+  }
+  @media (max-width:900px){.product-block{grid-template-columns:1fr;}}
+  .product-tag{
+    display:inline-block; font-family:'IBM Plex Mono'; font-size:12px; color:var(--void);
+    background:var(--amber); padding:4px 10px; border-radius:2px; margin-bottom:18px;
+  }
+  .product-block h2{font-size:clamp(26px,3vw,36px);}
+  .product-block p.desc{color:var(--text-dim); margin-top:16px; font-size:16px; max-width:48ch;}
+
+  .spec-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:32px;}
+  .spec-cell{background:var(--panel); padding:18px 20px;}
+  .spec-cell .k{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-faint); letter-spacing:.02em;}
+  .spec-cell .v{margin-top:6px; font-size:15px;}
+
+  .steps{margin-top:40px; display:flex; flex-direction:column; gap:0;}
+  .step{display:flex; gap:20px; padding:20px 0; border-top:1px solid var(--line);}
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step-num{font-family:'IBM Plex Mono'; color:var(--amber); font-size:14px; flex-shrink:0; width:26px;}
+  .step-body h4{font-family:'Space Grotesk'; font-size:16px; font-weight:600; margin-bottom:4px;}
+  .step-body p{color:var(--text-dim); font-size:14.5px; margin:0; max-width:50ch;}
+
+  /* big screen mock for ez charts section */
+  .big-device{transform:scale(1); }
+  .big-device .device-screen{height:340px;}
+
+  /* ---------- EZ KEYS ---------- */
+  .keys-section{background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .soon-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-dim);
+    border:1px dashed var(--line-bright); padding:5px 12px; border-radius:20px; margin-bottom:18px;
+  }
+  .soon-badge .dot-live{background:var(--amber); box-shadow:0 0 8px var(--amber);}
+
+  .keypad-mock{
+    background:linear-gradient(180deg,#181F26,#0D1116);
+    border:1px solid var(--line-bright);
+    border-radius:14px;
+    padding:20px;
+    width:min(320px, 100%);
+    margin-inline:auto;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7);
+  }
+  .keypad-screen{
+    height:56px; border-radius:4px; border:1px solid var(--line);
+    background:radial-gradient(120% 160% at 20% 0%, #101820, #070A0D 70%);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 14px; margin-bottom:16px;
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--amber);
+  }
+  .keypad-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+  .key{
+    aspect-ratio:1; border-radius:6px; background:var(--panel-2);
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-faint);
+  }
+  .key.lit{color:var(--amber); border-color:var(--amber-soft); box-shadow:0 0 0 1px var(--amber-soft) inset;}
+
+  .waitlist-form{
+    display:flex; gap:10px; margin-top:28px; max-width:420px; flex-wrap:wrap;
+  }
+  .waitlist-form input{
+    flex:1; min-width:200px;
+    background:var(--void); border:1px solid var(--line-bright); color:var(--text);
+    padding:12px 14px; border-radius:var(--radius); font-family:'IBM Plex Sans'; font-size:14.5px;
+  }
+  .waitlist-form input::placeholder{color:var(--text-faint);}
+  .waitlist-form input:focus{border-color:var(--amber); outline:none;}
+  .form-note{font-size:13px; color:var(--text-faint); margin-top:12px; font-family:'IBM Plex Mono';}
+
+  /* ---------- FAQ ---------- */
+  .faq-item{border-top:1px solid var(--line);}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%; text-align:left; background:none; border:none; color:var(--text);
+    padding:22px 0; font-size:16.5px; font-family:'Space Grotesk'; font-weight:500;
+    display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+    gap:20px;
+  }
+  .faq-q .plus{font-family:'IBM Plex Mono'; color:var(--amber); font-size:18px; flex-shrink:0; transition:transform .2s ease;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a p{color:var(--text-dim); font-size:15px; padding-bottom:22px; margin:0; max-width:60ch;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:64px 0 40px; border-top:1px solid var(--line);}
+  .footer-top{display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; padding-bottom:48px;}
+  .footer-cols{display:flex; gap:64px; flex-wrap:wrap;}
+  .footer-col h5{font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-faint); margin-bottom:14px;}
+  .footer-col a{display:block; color:var(--text-dim); text-decoration:none; font-size:14.5px; margin-bottom:10px;}
+  .footer-col a:hover{color:var(--text);}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:24px; border-top:1px solid var(--line); font-size:13px; color:var(--text-faint); font-family:'IBM Plex Mono'; flex-wrap:wrap; gap:12px;}
+</style>
 </head>
-
 <body>
-    <div class="background" aria-hidden="true">
-        <div class="grid"></div>
-        <div class="glow glow-one"></div>
-        <div class="glow glow-two"></div>
-    </div>
 
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header>
-        <a href="#" class="logo">
-            <span>EZ</span>
-            <small>CHARTS</small>
-        </a>
-
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#faq">FAQ</a>
-        </nav>
-
-        <a href="#buy" class="nav-button">Buy now</a>
-    </header>
-
-    <main id="main">
-        <section class="hero">
-            <div class="hero-content">
-                <p class="eyebrow">EZ CHARTS — MARKET DISPLAY</p>
-
-                <h1>
-                    The market.
-                    <span>Always on.</span>
-                </h1>
-
-                <p class="hero-text">
-                    A dedicated market display for your desk.
-                    Track crypto, stocks, ETFs and indexes without
-                    another browser tab.
-                </p>
-
-                <div class="hero-actions">
-                    <a href="#buy" class="primary">
-                        Buy EZ Charts
-                        <span>→</span>
-                    </a>
-
-                    <a href="#features" class="secondary">
-                        Explore
-                        <span>↓</span>
-                    </a>
-                </div>
-
-                <div class="hero-meta">
-                    <span>4″ DISPLAY</span>
-                    <i></i>
-                    <span>5 SAVED MARKETS</span>
-                    <i></i>
-                    <span>3 DISPLAY MODES</span>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="device" id="deviceUnit">
-                    <div class="device-screen">
-                        <div class="screen-content is-on" id="screenContent">
-                            <div class="screen-header">
-                                <span
-                                    class="screen-symbol"
-                                    id="screenSymbol"
-                                >
-                                    BTC-USD
-                                </span>
-
-                                <span
-                                    class="screen-price"
-                                    id="screenPrice"
-                                >
-                                    $112,450
-                                    <i id="screenChange">
-                                        +3.24%
-                                    </i>
-                                </span> 
-                            </div>
-
-                            <svg
-                                class="screen-chart"
-                                viewBox="0 0 300 120"
-                                preserveAspectRatio="none"
-                            >
-                                <polyline
-                                    id="screenPolyline"
-                                    points="0,96 30,84 60,90 90,54 120,66 150,36 180,48 210,24 240,42 270,12 300,18"
-                                />
-                            </svg>
-
-                            <div class="screen-dots" id="screenDots">
-                                <span class="dot active"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
-                        </div>
-
-                        <div class="screen-flicker" aria-hidden="true"></div>
-                    </div>
-                </div>
-
-                <div class="device-plinth"></div>
-            </div>
-        </section>
-
-        <section class="product-strip">
-            <div class="product-stat">
-                <strong>4″</strong>
-                <span>Dedicated market display</span>
-            </div>
-
-            <div class="product-stat">
-                <strong>05</strong>
-                <span>Saved market displays</span>
-            </div>
-
-            <div class="product-stat">
-                <strong>Wi-Fi</strong>
-                <span>Live market data</span>
-            </div>
-
-            <div class="product-stat">
-                <strong>Swipe</strong>
-                <span>Switch between markets</span>
-            </div>
-        </section>
-
-        <section id="features" class="section features">
-            <div class="section-heading">
-                <p class="eyebrow">THE DEVICE</p>
-
-                <h2>
-                    Built for your desk.
-                    <span>Not your browser.</span>
-                </h2>
-
-                <p class="section-text">
-                    EZ Charts keeps the markets you care about
-                    visible all day, without another tab,
-                    window or monitor.
-                </p>
-            </div>
-
-            <div class="feature-grid">
-                <article class="feature feature-large">
-                    <div class="feature-number">01</div>
-
-                    <div>
-                        <h3>Your markets. Your way.</h3>
-
-                        <p>
-                            Choose the assets you actually follow.
-                            Crypto, stocks, ETFs, indexes and more.
-                            Save up to five displays and switch
-                            between them from the device.
-                        </p>
-
-                        <p>  
-                            Each display can be customised with
-                            a candlestick chart, line chart, or
-                            price-only view.
-                        </p>
-                    </div>
-
-                    <div class="market-tags">
-                        <span>BTC</span>
-                        <span>ETH</span>
-                        <span>NVDA</span>
-                        <span>AAPL</span>
-                        <span>TSLA</span>
-                        <span>SPX</span>
-                        <span>GOLD</span>
-                    </div>
-                </article>
-
-                <article class="feature">
-                    <div class="feature-number">02</div>
-
-                    <h3>Always there.</h3>
-
-                    <p>
-                        Plug it in, put it on your desk and
-                        let it do its job. EZ Charts is designed
-                        to stay visible without getting in your way.
-                    </p>
-                </article>
-
-                <article class="feature">
-                    <div class="feature-number">03</div>
-
-                    <h3>Controlled from your desktop.</h3>
-
-                    <p>
-                        The EZ Charts desktop app is your control centre. 
-                        Configure your markets, display modes and settings, 
-                        then send them straight to the device.
-                    </p>
-
-                    <p>
-                        The app is actively maintained and receives updates 
-                        with improvements, new features and fixes over time.
-                    </p>
-                </article>
-            </div>
-        </section>
-
-        <section id="buy" class="buy-section">
-            <div class="buy-glow"></div>
-
-            <div class="buy-inner">
-                <div class="buy-copy">
-                    <p class="eyebrow">EZ CHARTS</p>
-
-                    <h2>
-                        Put the market
-                        <span>on your desk.</span>
-                    </h2>
-
-                    <p>
-                        One dedicated display. Five saved markets.
-                        Choose how each one looks — candlestick,
-                        line chart, or price only.
-                    </p>
-
-                    <div class="buy-price">
-                        <span class="price-label">
-                            EZ Charts
-                        </span>
-
-                        <strong>$129</strong>
-
-                        <span class="price-currency">
-                            USD
-                        </span>
-                    </div>
-
-                    <p class="price-note">
-                        Includes the EZ Charts display and desktop app, with ongoing software updates.
-                    </p>
-
-                    <a href="#" class="buy-button" id="buyButton">
-                        Coming soon...
-                        <span>→</span>
-                    </a>
-
-                    <div class="buy-details">
-                        <span>Secure checkout</span>
-                        <span>•</span>
-                        <span>Ships worldwide</span>
-                        <span>•</span>
-                        <span>Discord support</span>
-                    </div>
-                </div>
-
-                <div class="buy-product">
-                    <div class="buy-device-shadow"></div>
-
-                    <div class="device buy-device">
-                        <div class="device-screen">
-                            <div class="screen-content is-on">
-                                <div class="screen-header">
-                                    <span class="screen-symbol">
-                                        NVDA
-                                    </span>
-
-                                    <span class="screen-price">
-                                        $189.72
-                                        <i>
-                                            +2.18%
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <svg
-                                    class="screen-chart"
-                                    viewBox="0 0 300 120"
-                                    preserveAspectRatio="none"
-                                >
-                                    <polyline
-                                        points="0,88 30,78 60,82 90,56 120,63 150,44 180,50 210,28 240,35 270,18 300,25"
-                                    />
-                                </svg>
-
-                                <div class="screen-dots">
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot active"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="section faq">
-            <div class="section-heading">
-                <p class="eyebrow">FAQ</p>
-
-                <h2>Good to know.</h2>
-            </div>
-
-            <div class="faq-list">
-                <details class="faq-item">
-                    <summary>
-                        Does my computer need to stay on?
-                    </summary>
-
-                    <p>
-                        No. The desktop app is used to configure
-                        your device. Once configured, EZ Charts
-                        runs independently.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        What can I display?
-                    </summary>
-
-                    <p>
-                        You can display supported crypto assets,
-                        stocks, ETFs, indexes and commodities.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        How many markets can I save?
-                    </summary>
-
-                    <p>
-                        EZ Charts supports up to five saved displays 
-                        that you can swipe between directly on the device.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        What display modes are available?
-                    </summary>
-
-                    <p>
-                        Candlestick is the default view, with
-                        line chart and price-only modes available
-                        as alternatives. Each saved display can
-                        use its own display mode.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        What happens if Wi-Fi disconnects?
-                    </summary>
-
-                    <p>
-                        The device automatically reconnects when
-                        your network becomes available again.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        Is the desktop app still being updated?
-                    </summary>
-
-                    <p>
-                        Yes. The EZ Charts desktop app is actively
-                        maintained and receives updates with new
-                        features, improvements and bug fixes over time.
-                        Your device is designed to keep getting better
-                        after purchase.
-                    </p>
-                </details>
-
-                <details class="faq-item">
-                    <summary>
-                        Where can I get support?
-                    </summary>
-
-                    <p>
-                        Join the EZ Charts Discord community for
-                        customer support, setup help, troubleshooting,
-                        updates and a place to connect with other users.
-                    </p>
-                </details>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-brand">
-            <strong>EZ CHARTS</strong>
-            <span>
-                A product by Xylint Tech
-            </span>
-        </div>
-
-        <div class="footer-links">
-            <a
-                href="https://discord.gg/NJFYcfMTPs"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Discord — Support & Community
-            </a>
-
-            <a
-                href="https://x.com/EzChartsApp"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                X
-            </a>
-
-            <a href="#faq">
-                FAQ
-            </a>
-
-            <a href="#buy">
-                Buy
-            </a>
-        </div>
-
-        <span class="copyright">
-            © 2026 Xylint Tech
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 26 26" fill="none">
+            <path d="M2 2 L24 24 M24 2 L2 24" stroke="#FFB454" stroke-width="3" stroke-linecap="round"/>
+          </svg>
         </span>
-    </footer>
+        Xylnt Technologies
+      </a>
+      <div class="nav-links">
+        <a href="#ezcharts">EZ Charts</a>
+        <a href="#ezkeys">EZ Keys</a>
+        <a href="#faq">Support</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#ezcharts" class="btn btn-amber">Order EZ Charts</a>
+      </div>
+      <button class="menu-btn" aria-label="Menu">☰</button>
+    </nav>
+  </div>
+</header>
 
-    <script src="js/animations.js"></script>
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="grid-bg"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <span class="status-chip"><span class="dot-live"></span> Xylnt hardware · built for the desk</span>
+        <h1>The market, always in view.</h1>
+        <p class="lead">Xylnt Technologies builds small, dedicated instruments that sit on your desk and do one job well. EZ Charts keeps the crypto, stocks and ETFs you follow visible all day — no browser tab, no spare monitor.</p>
+        <div class="hero-ctas">
+          <a href="#ezcharts" class="btn btn-amber">Get EZ Charts</a>
+          <a href="#ezkeys" class="btn btn-ghost">See what's next</a>
+        </div>
+        <div class="hero-note">Configured from the EZ Charts desktop app · works over Wi‑Fi</div>
+      </div>
+
+      <div class="device big-device">
+        <div class="device-top">
+          <span>EZ CHARTS</span>
+          <span>DISPLAY 02 / 05</span>
+        </div>
+        <div class="device-screen">
+          <div class="screen-header">
+            <div>
+              <div class="ticker-sym">BTC / USD</div>
+              <div class="ticker-price mono" id="heroPrice">108,240</div>
+              <div class="ticker-delta up mono" id="heroDelta">▲ 1.84%</div>
+            </div>
+          </div>
+          <div id="candles"></div>
+          <div class="device-dots">
+            <span></span><span class="active"></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="device-bottom">
+          <span>CANDLESTICK</span>
+          <span>AUTO-RECONNECT: ON</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Why a dedicated display</span>
+        <h2>A screen for one job, not forty tabs.</h2>
+        <p>General-purpose screens are full of things fighting for your attention. Xylnt devices are built to show one thing clearly, stay out of your way, and keep working after you've stopped thinking about them.</p>
+      </div>
+      <div class="principles">
+        <div class="principle">
+          <h3>Nothing else on it</h3>
+          <p>No notifications, no tabs, no login walls. Just the markets you chose, rendered clean.</p>
+        </div>
+        <div class="principle">
+          <h3>Controlled from your desktop</h3>
+          <p>Every setting lives in the companion app. The device itself has nothing to configure by hand.</p>
+        </div>
+        <div class="principle">
+          <h3>Keeps working</h3>
+          <p>Drops off Wi‑Fi, reconnects on its own. It's meant to be plugged in once and forgotten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EZ CHARTS -->
+  <section id="ezcharts">
+    <div class="wrap">
+      <div class="product-block">
+        <div>
+          <span class="product-tag">Available now</span>
+          <h2>EZ Charts</h2>
+          <p class="desc">A personal market display for live crypto, stocks, ETF and index charts — controlled effortlessly from the EZ Charts desktop app. Plug it in, put it on your desk, and let it do its job.</p>
+
+          <div class="spec-grid">
+            <div class="spec-cell">
+              <div class="k">SAVED DISPLAYS</div>
+              <div class="v">Up to 5, switch from the device</div>
+            </div>
+            <div class="spec-cell">
+              <div class="k">VIEW MODES</div>
+              <div class="v">Candlestick, line, or price-only</div>
+            </div>
+            <div class="spec-cell">
+              <div class="k">MARKETS</div>
+              <div class="v">Crypto, stocks, ETFs, indexes</div>
+            </div>
+            <div class="spec-cell">
+              <div class="k">CONNECTIVITY</div>
+              <div class="v">Wi‑Fi, auto-reconnects</div>
+            </div>
+            <div class="spec-cell">
+              <div class="k">CONTROL</div>
+              <div class="v">EZ Charts desktop app</div>
+            </div>
+            <div class="spec-cell">
+              <div class="k">SUPPORT</div>
+              <div class="v">Active updates + Discord community</div>
+            </div>
+          </div>
+
+          <div class="hero-ctas" style="margin-top:32px;">
+            <a href="#" class="btn btn-amber">Order EZ Charts</a>
+            <a href="#faq" class="btn btn-ghost">Read the FAQ</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="device big-device">
+            <div class="device-top">
+              <span>EZ CHARTS</span>
+              <span>DISPLAY 04 / 05</span>
+            </div>
+            <div class="device-screen">
+              <div class="screen-header">
+                <div>
+                  <div class="ticker-sym">SPY</div>
+                  <div class="ticker-price mono" id="ezPrice">601.12</div>
+                  <div class="ticker-delta down mono" id="ezDelta">▼ 0.42%</div>
+                </div>
+              </div>
+              <div id="candles2"></div>
+              <div class="device-dots">
+                <span></span><span></span><span></span><span class="active"></span><span></span>
+              </div>
+            </div>
+            <div class="device-bottom">
+              <span>LINE VIEW</span>
+              <span>SPY · ETF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h4>Choose your markets in the app</h4>
+            <p>Pick from crypto, stocks, ETFs and indexes, then set a view mode for each — candlestick, line or price-only.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h4>Save up to five displays</h4>
+            <p>Build a rotation of the assets you actually watch and send the configuration straight to the device.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h4>Put it on your desk</h4>
+            <p>It stays visible without another browser tab, window or monitor — and reconnects on its own if your network drops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EZ KEYS -->
+  <section id="ezkeys" class="keys-section">
+    <div class="wrap">
+      <div class="product-block">
+        <div style="order:2;">
+          <div class="keypad-mock">
+            <div class="keypad-screen">
+              <span>EZ KEYS</span>
+              <span>— PREVIEW —</span>
+            </div>
+            <div class="keypad-grid">
+              <div class="key lit">1</div>
+              <div class="key">2</div>
+              <div class="key">3</div>
+              <div class="key">4</div>
+              <div class="key lit">5</div>
+              <div class="key">6</div>
+            </div>
+          </div>
+        </div>
+        <div style="order:1;">
+          <span class="soon-badge"><span class="dot-live"></span> Coming soon</span>
+          <h2>EZ Keys</h2>
+          <p class="desc">A micro keypad with a screen, built to sit next to your keyboard. Every key can carry its own label, action or shortcut, shown right on the built-in display — set up from the same desktop app that runs EZ Charts.</p>
+          <p class="desc">We're building EZ Keys for the same reason we built EZ Charts: fewer things fighting for your attention, more of your desk doing exactly what you told it to.</p>
+          <form class="waitlist-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='You\'re on the list';">
+            <input type="email" placeholder="you@email.com" required aria-label="Email address">
+            <button type="submit" class="btn btn-amber">Join waitlist</button>
+          </form>
+          <div class="form-note">No spam — one email when EZ Keys ships.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Support</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q">What happens if my Wi‑Fi drops?<span class="plus">+</span></button>
+          <div class="faq-a" style="max-height:200px;"><p>EZ Charts automatically reconnects once your network becomes available again — you don't need to touch anything.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Does the desktop app keep getting updates?<span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes. The EZ Charts desktop app is actively maintained, with new features, improvements and fixes released over time. Your device is designed to keep getting better after purchase.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">How many markets can I display?<span class="plus">+</span></button>
+          <div class="faq-a"><p>You can save up to five displays covering crypto, stocks, ETFs and indexes, and switch between them directly from the device.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Where can I get help?<span class="plus">+</span></button>
+          <div class="faq-a"><p>Join the EZ Charts Discord community for setup help, troubleshooting, updates, and a place to connect with other users.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <a href="#top" class="logo" style="margin-bottom:14px; display:flex;">
+          <span class="logo-mark">
+            <svg viewBox="0 0 26 26" fill="none">
+              <path d="M2 2 L24 24 M24 2 L2 24" stroke="#FFB454" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Xylnt Technologies
+        </a>
+        <p style="color:var(--text-dim); font-size:14px; max-width:32ch; margin-top:12px;">Small instruments for the desk. Built to do one job, and do it quietly.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Products</h5>
+          <a href="#ezcharts">EZ Charts</a>
+          <a href="#ezkeys">EZ Keys</a>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#faq">Support</a>
+          <a href="#">Discord</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Xylnt Technologies</span>
+      <span>Auckland, NZ</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // marquee data
+  const tickers = [
+    ["BTC", "108,240", true], ["ETH", "3,912", false], ["SPY", "601.12", false],
+    ["QQQ", "512.88", true], ["NVDA", "184.30", true], ["AAPL", "231.05", false],
+    ["SOL", "214.77", true], ["DIA", "421.16", false]
+  ];
+  const track = document.getElementById('marqueeTrack');
+  function renderMarquee(){
+    let html = '';
+    for(let i=0;i<2;i++){
+      tickers.forEach(([sym, price, up])=>{
+        html += `<span class="m-item"><span class="m-sym">${sym}</span><span class="m-price ${up?'up':'down'}">${up?'▲':'▼'} ${price}</span></span>`;
+      });
+    }
+    track.innerHTML = html;
+  }
+  renderMarquee();
+
+  // candlestick generator
+  function buildCandles(containerId, seed){
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    const n = 26;
+    let bars = [];
+    for(let i=0;i<n;i++){
+      const h = 20 + Math.abs(Math.sin(i*0.7+seed)*60) + Math.random()*30;
+      const up = Math.random() > 0.42;
+      bars.push({h, up});
+    }
+    el.innerHTML = bars.map(b => `<div class="candle ${b.up?'up':'down'}" style="height:${b.h}%"></div>`).join('');
+    return el;
+  }
+  const c1 = buildCandles('candles', 1);
+  const c2 = buildCandles('candles2', 3);
+
+  function animateCandles(el){
+    if(!el) return;
+    setInterval(()=>{
+      const bars = el.querySelectorAll('.candle');
+      bars.forEach(bar=>{
+        if(Math.random() > 0.7){
+          const h = 15 + Math.random()*85;
+          bar.style.height = h + '%';
+        }
+      });
+    }, 1400);
+  }
+  animateCandles(c1);
+  animateCandles(c2);
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(other=>{
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
