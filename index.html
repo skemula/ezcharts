@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Xylnt Technologies</title>
+<title>Xylnt Technologies — Purpose-built desktop hardware</title>
 <meta name="description" content="Xylnt Technologies designs focused desktop hardware with a single purpose. Discover EZ Charts, our dedicated live market display, and future products in development.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -248,28 +248,51 @@
   .principle{transition:background .2s ease;}
   .principle:hover{background:var(--panel);}
 
-  .product-stage{min-height:430px; display:grid; place-items:center; overflow:hidden; isolation:isolate; background:linear-gradient(150deg,#f4f6f8 0%,#dce1e6 100%);}
-  .product-stage::before{content:''; position:absolute; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle,rgba(255,180,84,.2),rgba(255,180,84,0) 68%); top:36px; left:50%; transform:translateX(-50%); z-index:-1;}
-  .ez-device{position:relative; width:min(88%,430px); aspect-ratio:1.34/1; transform:perspective(900px) rotateX(2deg) rotateY(-5deg); filter:drop-shadow(0 34px 30px rgba(20,25,30,.28));}
-  .ez-shell{position:absolute; inset:8% 4% 22%; background:linear-gradient(145deg,#171d22,#090c0e); border:1px solid #30383f; border-radius:14px; padding:10px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.035), inset 0 -14px 24px rgba(0,0,0,.35);}
-  .ez-screen{height:100%; border-radius:7px; overflow:hidden; background:#0c1210; color:#f4f7f5; padding:16px 18px 13px; display:flex; flex-direction:column; box-shadow:inset 0 0 18px rgba(85,255,136,.025); font-family:'IBM Plex Mono',monospace;}
-  .ez-topbar,.ez-symbol-row,.ez-meta{display:flex; align-items:center; justify-content:space-between;}
+  .product-stage{
+    min-height:390px; display:grid; place-items:center; overflow:visible; isolation:isolate;
+    background:transparent; box-shadow:none; padding:18px 0; border-radius:0;
+  }
+  .product-stage::before{
+    content:''; position:absolute; width:min(88%,430px); aspect-ratio:1.72/1;
+    border-radius:20px; background:rgba(85,255,136,.05); filter:blur(38px);
+    z-index:-1; pointer-events:none;
+  }
+  .product-stage .plate-tag{top:2px; left:0; box-shadow:none;}
+  .ez-device{
+    position:relative; width:min(96%,500px); aspect-ratio:1.72/1;
+    filter:drop-shadow(0 26px 36px rgba(0,0,0,.42));
+  }
+  .ez-screen{
+    position:absolute; inset:0; overflow:hidden; background:#0c1210; color:#f4f7f5;
+    padding:18px 20px 14px; display:flex; flex-direction:column;
+    border:1px solid #24302a; border-radius:7px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.025), inset 0 0 38px rgba(85,255,136,.018);
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .ez-screen::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(115deg,rgba(255,255,255,.035),transparent 24%,transparent 74%,rgba(255,255,255,.012));
+  }
+  .ez-topbar,.ez-symbol-row,.ez-meta{display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1;}
   .ez-topbar{font-size:9px; color:#66716a; letter-spacing:.12em; padding-bottom:10px; border-bottom:1px solid #1b2521;}
   .ez-wifi{color:#55ff88; font-size:9px;}
-  .ez-symbol-row{padding:13px 0 8px; gap:14px;}
-  .ez-symbol-row strong{display:block; font-family:'Space Grotesk'; font-size:27px; line-height:1; letter-spacing:-.04em;}
+  .ez-symbol-row{padding:15px 0 9px; gap:14px;}
+  .ez-symbol-row strong{display:block; font-family:'Space Grotesk'; font-size:30px; line-height:1; letter-spacing:-.04em;}
   .ez-symbol-row div>span{display:block; font-size:8px; color:#8c978f; margin-top:5px;}
-  .ez-price{text-align:right; font-size:19px; font-weight:600;}
+  .ez-price{text-align:right; font-size:21px; font-weight:600;}
   .ez-price span{color:#55ff88 !important; font-size:9px !important; margin-top:4px !important;}
-  .ez-chart{position:relative; flex:1; min-height:95px; color:#55ff88; overflow:hidden;}
-  .ez-chart svg{position:absolute; inset:10px 0 6px; width:100%; height:calc(100% - 16px); filter:drop-shadow(0 0 5px rgba(85,255,136,.22));}
+  .ez-chart{position:relative; flex:1; min-height:104px; color:#55ff88; overflow:hidden; z-index:1;}
+  .ez-chart::after{
+    content:''; position:absolute; left:0; right:0; bottom:7px; height:62%;
+    background:linear-gradient(to bottom,rgba(85,255,136,.08),transparent);
+    clip-path:polygon(0 78%,9% 69%,18% 75%,28% 53%,37% 58%,47% 38%,55% 46%,65% 26%,75% 32%,84% 16%,93% 23%,100% 6%,100% 100%,0 100%);
+    opacity:.38;
+  }
+  .ez-chart svg{position:absolute; inset:8px 0 6px; width:100%; height:calc(100% - 14px); filter:drop-shadow(0 0 6px rgba(85,255,136,.28)); z-index:2;}
   .grid-line{position:absolute; left:0; right:0; height:1px; background:#17201c;} .g1{top:24%;}.g2{top:51%;}.g3{top:78%;}
   .ez-meta{border-top:1px solid #1b2521; padding-top:8px; font-size:8px; color:#66716a;}
   .ez-meta span:nth-child(2){color:#55ff88;}
-  .ez-stand{position:absolute; width:47%; height:24%; left:27%; bottom:2%; background:linear-gradient(145deg,#1a2024,#090c0e); clip-path:polygon(26% 0,76% 0,100% 100%,0 100%); z-index:-1; border-radius:0 0 8px 8px;}
-  .ez-stand::after{content:''; position:absolute; left:-18%; right:-18%; bottom:-8%; height:22%; background:#0b0f12; border-radius:50%; box-shadow:0 6px 10px rgba(0,0,0,.3);}
-  .product-shadow{position:absolute; width:65%; height:28px; bottom:35px; left:18%; border-radius:50%; background:rgba(40,48,54,.18); filter:blur(14px); z-index:-2;}
-  .plate-caption{padding-left:4px; padding-right:4px;}
+  .plate-caption{padding-left:0; padding-right:0; margin-top:8px;}
 
   .spec-cell{transition:background .15s ease,border-color .15s ease;}
   .spec-cell:hover{background:#141b20;}
@@ -281,7 +304,7 @@
     nav{height:62px;} .logo{font-size:16px;} .logo-mark{width:23px;height:23px;}
     .hero{padding:72px 0 48px;} .hero-inner{gap:48px;} .hero h1{font-size:42px;} .hero p.lead{font-size:16px;}
     .module-grid{padding:18px;gap:10px;} .module-caption{gap:14px;font-size:9.5px;}
-    .product-stage{min-height:330px;padding:20px;} .ez-device{width:100%;} .ez-screen{padding:12px 13px 10px;} .ez-symbol-row strong{font-size:22px;} .ez-price{font-size:16px;}
+    .product-stage{min-height:290px;padding:10px 0;} .ez-device{width:100%;} .product-stage .plate-tag{top:-6px;} .ez-screen{padding:13px 14px 10px;} .ez-symbol-row strong{font-size:24px;} .ez-price{font-size:17px;}
     .spec-grid{grid-template-columns:1fr;} .photo-plate{padding:20px;} .next-teaser{padding:24px;}
     .footer-cols{gap:36px;}
   }
@@ -400,9 +423,8 @@
         <div>
           <div class="photo-plate product-stage">
             <span class="plate-tag">EZ CHARTS · 01</span>
-            <div class="ez-device" aria-label="CSS illustration of the EZ Charts device">
-              <div class="ez-shell">
-                <div class="ez-screen">
+            <div class="ez-device" aria-label="CSS illustration of the EZ Charts screen">
+              <div class="ez-screen">
                   <div class="ez-topbar"><span>EZ CHARTS</span><span class="ez-wifi">◉</span></div>
                   <div class="ez-symbol-row"><div><strong>BTC</strong><span>Bitcoin / USD</span></div><div class="ez-price">108,240<span>+2.14%</span></div></div>
                   <div class="ez-chart">
@@ -410,13 +432,10 @@
                     <svg viewBox="0 0 400 130" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,98 35,88 70,94 110,66 145,72 185,48 220,58 260,34 300,42 335,21 370,30 400,12" fill="none" stroke="currentColor" stroke-width="4" vector-effect="non-scaling-stroke"/></svg>
                   </div>
                   <div class="ez-meta"><span>1D</span><span>LIVE</span><span>USD</span></div>
-                </div>
               </div>
-              <div class="ez-stand"><span></span></div>
             </div>
-            <div class="product-shadow"></div>
           </div>
-          <div class="plate-caption"><span>LIVE MARKET DISPLAY</span><span>CSS PRODUCT RENDER</span></div>
+          <div class="plate-caption"><span>4.3″ TOUCH DISPLAY</span><span>LIVE MARKET UI</span></div>
         </div>
 
         <div>
